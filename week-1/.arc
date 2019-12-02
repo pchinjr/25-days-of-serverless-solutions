@@ -1,8 +1,9 @@
 @app
-init
+twentyfive-days-week-1
 
 @http
 get /
+get /dreidel
 
 ## Uncomment the following lines to deploy to AWS!
 @aws

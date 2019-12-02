@@ -1,11 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Exported by architect/package@1.0.53 on 2019-12-02T02:21:08.337Z
+Description: Exported by architect/package@1.0.53 on 2019-12-02T05:20:30.373Z
 Resources:
-  Init:
+  TwentyfiveDaysWeek1:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: staging
+      StageName: production
       DefinitionBody:
         openapi: 3.0.1
         info:
@@ -20,6 +20,22 @@ Resources:
               x-amazon-apigateway-integration:
                 uri:
                   Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetIndex.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: '200'
+                    contentHandling: CONVERT_TO_TEXT
+                passthroughBehavior: when_no_match
+                httpMethod: POST
+                contentHandling: CONVERT_TO_TEXT
+                type: aws_proxy
+          /dreidel:
+            get:
+              responses:
+                '200':
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetDreidel.Arn}/invocations
                 responses:
                   default:
                     statusCode: '200'
@@ -57,7 +73,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://25-days-of-serverless-week-1/3b2ce5c2c023077bc60f8b29e294c7a5
+      CodeUri: s3://25-days-of-serverless-week-1/7a3fbd1f93318aa65dc8011a7bbad265
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -67,9 +83,9 @@ Resources:
             Ref: Role
           ARC_CLOUDFORMATION:
             Ref: AWS::StackName
-          ARC_APP_NAME: init
+          ARC_APP_NAME: twentyfive-days-week-1
           ARC_HTTP: aws_proxy
-          NODE_ENV: staging
+          NODE_ENV: production
           SESSION_TABLE_NAME: jwe
       Role:
         Fn::Sub:
@@ -83,7 +99,38 @@ Resources:
             Path: /
             Method: GET
             RestApiId:
-              Ref: Init
+              Ref: TwentyfiveDaysWeek1
+  GetDreidel:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      CodeUri: s3://25-days-of-serverless-week-1/4b060050aa098d51fc6a0c60f5f94f00
+      Runtime: nodejs10.x
+      MemorySize: 1152
+      Timeout: 5
+      Environment:
+        Variables:
+          ARC_ROLE:
+            Ref: Role
+          ARC_CLOUDFORMATION:
+            Ref: AWS::StackName
+          ARC_APP_NAME: twentyfive-days-week-1
+          ARC_HTTP: aws_proxy
+          NODE_ENV: production
+          SESSION_TABLE_NAME: jwe
+      Role:
+        Fn::Sub:
+        - arn:aws:iam::${AWS::AccountId}:role/${roleName}
+        - roleName:
+            Ref: Role
+      Events:
+        GetDreidelEvent:
+          Type: Api
+          Properties:
+            Path: /dreidel
+            Method: GET
+            RestApiId:
+              Ref: TwentyfiveDaysWeek1
   InvokeProxyPermission:
     Type: AWS::Lambda::Permission
     Properties:
@@ -95,7 +142,7 @@ Resources:
         Fn::Sub:
         - arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${restApiId}/*/*
         - restApiId:
-            Ref: Init
+            Ref: TwentyfiveDaysWeek1
   Role:
     Type: AWS::IAM::Role
     Properties:
@@ -122,10 +169,10 @@ Outputs:
     Description: API Gateway
     Value:
       Fn::Sub:
-      - https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/staging
+      - https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/production
       - restApiId:
-          Ref: Init
+          Ref: TwentyfiveDaysWeek1
   restApiId:
     Description: HTTP restApiId
     Value:
-      Ref: Init
+      Ref: TwentyfiveDaysWeek1

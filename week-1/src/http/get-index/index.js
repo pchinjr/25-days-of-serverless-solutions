@@ -47,14 +47,12 @@ exports.handler = async function http (req) {
     <div class="margin-left-8">
       <div class="margin-bottom-16">
         <h1 class="margin-bottom-16">
-          Hello from Node.js!
+         Week 1 of #25 Days of Serverless Create an endpoint to spin a dreidel
         </h1>
         <p class="margin-bottom-8">
-          Get started by editing this file at:
+          <a href ="https://eh78toievi.execute-api.us-east-1.amazonaws.com/production/dreidel">Create an endpoint to spin a dreidel</a> </br>
+          Made with Arc.Codes
         </p>
-        <code>
-          src/http/{your function}/index.js
-        </code>
       </div>
       <div>
         <p class="margin-bottom-8">
