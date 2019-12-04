@@ -1,5 +1,5 @@
 @app
-25days-challenge-2
+twentyfive-days-challenge-2
 
 @http
 get /
