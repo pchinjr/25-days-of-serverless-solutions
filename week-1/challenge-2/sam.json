@@ -1,9 +1,9 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
-  "Description": "Exported by architect/package@1.0.53 on 2019-12-04T13:50:05.441Z",
+  "Description": "Exported by architect/package@1.0.53 on 2019-12-05T02:35:20.872Z",
   "Resources": {
-    "25daysChallenge2": {
+    "TwentyfiveDaysChallenge2": {
       "Type": "AWS::Serverless::Api",
       "Properties": {
         "StageName": "staging",
@@ -96,7 +96,7 @@
             "ARC_CLOUDFORMATION": {
               "Ref": "AWS::StackName"
             },
-            "ARC_APP_NAME": "25days-challenge-2",
+            "ARC_APP_NAME": "twentyfive-days-challenge-2",
             "ARC_HTTP": "aws_proxy",
             "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe"
@@ -119,7 +119,7 @@
               "Path": "/",
               "Method": "GET",
               "RestApiId": {
-                "Ref": "25daysChallenge2"
+                "Ref": "TwentyfiveDaysChallenge2"
               }
             }
           }
@@ -139,52 +139,10 @@
             "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${restApiId}/*/*",
             {
               "restApiId": {
-                "Ref": "25daysChallenge2"
+                "Ref": "TwentyfiveDaysChallenge2"
               }
             }
           ]
-        }
-      }
-    },
-    "LightCandles": {
-      "Type": "AWS::Serverless::Function",
-      "Properties": {
-        "Handler": "index.handler",
-        "CodeUri": "./src/scheduled/light-candles",
-        "Runtime": "nodejs10.x",
-        "MemorySize": 1152,
-        "Timeout": 5,
-        "Environment": {
-          "Variables": {
-            "ARC_ROLE": {
-              "Ref": "Role"
-            },
-            "ARC_CLOUDFORMATION": {
-              "Ref": "AWS::StackName"
-            },
-            "ARC_APP_NAME": "25days-challenge-2",
-            "ARC_HTTP": "aws_proxy",
-            "NODE_ENV": "staging",
-            "SESSION_TABLE_NAME": "jwe"
-          }
-        },
-        "Role": {
-          "Fn::Sub": [
-            "arn:aws:iam::${AWS::AccountId}:role/${roleName}",
-            {
-              "roleName": {
-                "Ref": "Role"
-              }
-            }
-          ]
-        },
-        "Events": {
-          "LightCandlesEvent": {
-            "Type": "Schedule",
-            "Properties": {
-              "Schedule": "rate(10 minutes)"
-            }
-          }
         }
       }
     },
@@ -233,7 +191,7 @@
           "https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/staging",
           {
             "restApiId": {
-              "Ref": "25daysChallenge2"
+              "Ref": "TwentyfiveDaysChallenge2"
             }
           }
         ]
@@ -242,7 +200,7 @@
     "restApiId": {
       "Description": "HTTP restApiId",
       "Value": {
-        "Ref": "25daysChallenge2"
+        "Ref": "TwentyfiveDaysChallenge2"
       }
     }
   }

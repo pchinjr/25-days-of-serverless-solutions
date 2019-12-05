@@ -4,8 +4,8 @@ twentyfive-days-challenge-2
 @http
 get /
 
-@scheduled
-light-candles rate(10 minutes)
+## @scheduled
+## light-candles rate(10 minutes)
 
 ## Uncomment the following lines to deploy to AWS!
 @aws
