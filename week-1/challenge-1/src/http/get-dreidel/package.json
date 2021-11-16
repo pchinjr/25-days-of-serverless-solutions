@@ -10,6 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "@architect/functions": "^3.4.11",
-    "aws-sdk": "^2.580.0"
+    "aws-sdk": "^2.814.0"
   }
 }
